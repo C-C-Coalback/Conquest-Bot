@@ -1,4 +1,4 @@
-This repository contains all of the code for building a Conquest AI with a neural network. It does NOT contain the code for the environment used to train the network; please see LINK for that repository.
+This repository contains all of the code for building a Conquest AI with a neural network. It does NOT contain the code for the environment used to train the network; please see [here](https://github.com/C-C-Coalback/Conquest-LCG-Site) for that repository.
 
 # Installation Instructions
 
