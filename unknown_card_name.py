@@ -1,0 +1,1 @@
+UNKNOWN_CARD_NAME = "Unknown"
