@@ -19,10 +19,13 @@ DISCARD_VOCAB_SIZE = len(discard_vocab)
 PLANET_VOCAB_SIZE = len(planet_vocab)
 ATTACHMENT_VOCAB_SIZE = len(attachment_vocab)
 OUTPUT_DIM = 16
-SCALARS_PER_ATTACHMENT = 1
-ATTACHMENT_CARD_FEATURE_DIM = ATTACHMENT_VOCAB_SIZE + SCALARS_PER_ATTACHMENT  # embedding(Card Size) + ready(1)
-SCALARS_PER_CARD = 9 # ready(1) + damage(1) + target(1) + attack(1) + health(1) + command(1) + card type(1) + faction(1)
-CARD_FEATURE_DIM = 1*SCALARS_PER_CARD + MAX_ATTACHMENTS_PER_CARD*SCALARS_PER_ATTACHMENT  # embedding(Card Size) + Scalars per card + (Attachment Size * Max Attachments)
+SCALARS_PER_ATTACHMENT = 1  # ready(1)
+ATTACHMENT_CARD_FEATURE_DIM = SCALARS_PER_ATTACHMENT
+SCALARS_PER_CARD = 9 # ready(1) + damage(1) + target(1) + attack(1) + health(1) + command(1) + cost(1) + card type(1) + faction(1)
+CARD_FEATURE_DIM = 1*SCALARS_PER_CARD + MAX_ATTACHMENTS_PER_CARD*ATTACHMENT_CARD_FEATURE_DIM  # Scalars per card + (Attachment Size * Max Attachments)
+# When using embedding layers for the cards, you must update the Card Features to include the Card Size.
+# Because I changed it so that each area has its own separate vocab, this no longer works.
+# TODO: Add custom Card Feature Dim for each different zone.
 PHASES = {"DEPLOY": 1, "COMMAND": 2, "COMBAT": 3, "HEADQUARTERS": 4}
 NUM_PHASES = len(PHASES)
 UNIQUE_CHOICES = {"Gains from Tarrus": 1, "Shadowsun plays attachment from hand or discard?": 2, "Use Nullify?": 3, "Interrupt Effect?": 4, "Use alternative shield effect?": 5, 
