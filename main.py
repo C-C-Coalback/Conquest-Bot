@@ -15,7 +15,7 @@ from protocolSettings import bot_room_name, ws_protocol, site_name, training, UR
 
 
 simplified = True
-transformer = False
+transformer = True
 move_filter = False
 use_custom_move_rewards = False
 eor_training = True
@@ -26,7 +26,7 @@ game_count = 0
 initial_game_number = 0
 num_times_a_timeout_occurred = 0
 max_timeouts = 20
-file_name_model = "trained_models/SimpleTrainedEOGRewardsOnly.keras"
+file_name_model = "trained_models/EORTransformer2RoundOnly.keras"
 valid_deck_names = ["CatoChamp"]
 game_count_file = "num_games_done_tracker.txt"
 file_times_of_each_game = "game_times.txt"

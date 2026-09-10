@@ -15,15 +15,18 @@ from protocolSettings import bot_room_name, ws_protocol, site_name, training, UR
 
 
 simplified = True
-transformer = False
+transformer = True
+move_filter = False
 use_custom_move_rewards = False
+eor_training = True
+eor_training_rounds = 2
 cards_changed_each_time = 0
 num_games = 500
 game_count = 0
 initial_game_number = 0
 num_times_a_timeout_occurred = 0
 max_timeouts = 20
-file_name_model = "trained_models/RevisedSimpleModel250.keras"
+file_name_model = "trained_models/EORTransformer2RoundOnly.keras"
 valid_deck_names = ["CatoChamp"]
 game_count_file = "num_games_done_tracker.txt"
 file_times_of_each_game = "game_times.txt"
@@ -124,7 +127,7 @@ if response.status_code == 200:
                             action_idx_per_player = {1: [], 2: []}
                             rewards_per_player = {1: [], 2: []}
                             rewards_stay_fix = {1: [], 2: []}
-                        elif action_required == "EOR_TRAINING" and len(inputs_per_player[1]) > 2:
+                        elif action_required == "EOR_TRAINING" and len(inputs_per_player[1]) > 2 and eor_training and game.round_number < eor_training_rounds:
                             print("Begin EOR processing.")
                             performing_eor_model_training = True
                             start_time = datetime.datetime.now()
