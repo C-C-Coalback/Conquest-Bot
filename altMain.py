@@ -127,7 +127,7 @@ if response.status_code == 200:
                             action_idx_per_player = {1: [], 2: []}
                             rewards_per_player = {1: [], 2: []}
                             rewards_stay_fix = {1: [], 2: []}
-                        elif action_required == "EOR_TRAINING" and len(inputs_per_player[1]) > 2 and eor_training and game.round_number < eor_training_rounds:
+                        elif action_required == "EOR_TRAINING" and len(inputs_per_player[1]) > 2 and eor_training and game.round_number - 1 < eor_training_rounds:
                             print("Begin EOR processing.")
                             performing_eor_model_training = True
                             start_time = datetime.datetime.now()
