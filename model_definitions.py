@@ -122,8 +122,8 @@ def create_simplified_model():
             planet_enc, scalar_enc, selected_hand_card_enc
         ]
     )
-    game_state = layers.Dense(64, activation="relu")(game_state)
-    # game_state = layers.Dense(64, activation="relu")(game_state)
+    game_state = layers.Dense(128, activation="relu")(game_state)
+    game_state = layers.Dense(128, activation="relu")(game_state)
 
     type_emb = layers.Embedding(NUM_ACTION_TYPES, 8)(action_type_input)
     action_enc = layers.Concatenate()([type_emb, action_args_input, action_relevant_card_input])

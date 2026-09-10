@@ -18,7 +18,8 @@ simplified = True
 transformer = False
 move_filter = False
 use_custom_move_rewards = False
-eor_training = False
+eor_training = True
+eor_training_rounds = 2
 cards_changed_each_time = 0
 num_games = 500
 game_count = 0
@@ -126,7 +127,7 @@ if response.status_code == 200:
                             action_idx_per_player = {1: [], 2: []}
                             rewards_per_player = {1: [], 2: []}
                             rewards_stay_fix = {1: [], 2: []}
-                        elif action_required == "EOR_TRAINING" and len(inputs_per_player[1]) > 2 and eor_training:
+                        elif action_required == "EOR_TRAINING" and len(inputs_per_player[1]) > 2 and eor_training and game.round_number <= eor_training_rounds:
                             print("Begin EOR processing.")
                             performing_eor_model_training = True
                             start_time = datetime.datetime.now()
