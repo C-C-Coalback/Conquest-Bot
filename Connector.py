@@ -133,25 +133,21 @@ async def run_temp_connection(url, name_1, name_2):
             f.write(traceback.format_exc())
 
 async def handle_main_message(websocket, message):
-    message = ast.literal_eval(message)["message"]
-    print(message)
-    if message.startswith("Create lobby/"):
+    type = ast.literal_eval(message)["message"]
+    print(type)
+    if type == "Create lobby":
         print("lobby created")
-        split_message = message.split(sep="/")
-        human_username = split_message[1]
-        ai_opponent = "false"
-        if len(split_message) > 8:
-            ai_opponent = split_message[8]
-        print(ai_opponent)
+        human_username = ast.literal_eval(message)["p_one_name"]
+        ai_opponent = ast.literal_eval(message)["ai_opponent"]
         if ai_opponent == "true":
             message = "Join lobby/" + human_username + "/" + ""
             message = '{"message": \"' + message + '\"}'
             await websocket.send(message)
-    elif message.startswith("Move to game/"):
-        split_message = message.split(sep="/")
-        game_id = split_message[1]
-        name_1 = split_message[2]
-        name_2 = split_message[3]
+    elif type == "Move to game":
+        split_message = type.split(sep="/")
+        game_id = ast.literal_eval(message)["game_id"]
+        name_1 = ast.literal_eval(message)["first_player"]
+        name_2 = ast.literal_eval(message)["second_player"]
         if name_2 == bot_name or name_1 == bot_name:
             game_url = ws_protocol + "://" + site_name + "/ws/play/" + game_id + "/" + auth_token_string
 
