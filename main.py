@@ -14,6 +14,7 @@ import traceback
 from protocolSettings import bot_room_name, ws_protocol, site_name, training, URL, name_1, name_2
 
 
+notes = "Reduce game state back to 1 Dense Layer with 32 Neurons."
 simplified = True
 transformer = True
 move_filter = False
@@ -21,12 +22,12 @@ use_custom_move_rewards = False
 eor_training = True
 eor_training_rounds = 2
 cards_changed_each_time = 0
-num_games = 500
+num_games = 1500
 game_count = 0
 initial_game_number = 0
 num_times_a_timeout_occurred = 0
 max_timeouts = 20
-file_name_model = "trained_models/EORTransformer2RoundOnly.keras"
+file_name_model = "trained_models/SmallerEORTransformer2RoundOnly.keras"
 valid_deck_names = ["CatoChamp"]
 game_count_file = "num_games_done_tracker.txt"
 file_times_of_each_game = "game_times.txt"
@@ -249,3 +250,14 @@ if response.status_code == 200:
         model.save(file_name_model)
     end_time_all_games = datetime.datetime.now()
     print("Time taken to play all " + str(num_games - initial_game_number) + " games: ", end_time_all_games - start_time_all_games)
+    if num_games == game_count:
+        try:
+            from discordHelper import model_completed_training
+            model_settings = {
+                "Model Name": file_name_model, "Games Trained": num_games, "Transformer": transformer, 
+                "EOR Rewards": eor_training, "EOG Rewards": True, "Custom Move Rewards": use_custom_move_rewards, "EOR Rounds": eor_training_rounds, 
+                "Notes": notes
+            }
+            model_completed_training(model_settings)
+        except ImportError:
+            pass
