@@ -16,3 +16,4 @@ num_games_done_tracker.txt
 /__pycache__/
 game_results_tracker.txt
 test_reference_gather.py
+/.venv

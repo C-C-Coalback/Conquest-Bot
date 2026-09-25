@@ -23,10 +23,10 @@ game_count = 0
 initial_game_number = 0
 num_times_a_timeout_occurred = 0
 max_timeouts = 20
-file_name_model_1 = "trained_models/RevisedSimpleModel100.keras"
+file_name_model_1 = "trained_models/EORTransformer2RoundOnly.keras"
 file_name_model_2 = "trained_models/RevisedTransformerModel100.keras"
 valid_deck_names = ["CatoChamp"]
-recorded_game_results_file = "game_results/100_Simple_v_100_trans_model.txt"
+recorded_game_results_file = "game_results/EOR2R_vs_RevTrans100.txt"
 if not os.path.exists("decks"):
     shutil.copytree("default_decks", "decks")
 if not os.path.exists("decks/CatoCore"):
@@ -188,3 +188,12 @@ if response.status_code == 200:
     asyncio.run(connect())
     end_time_all_games = datetime.datetime.now()
     print("Time taken to play all " + str(num_games - initial_game_number) + " games: ", end_time_all_games - start_time_all_games)
+    if num_games == game_count:
+        try:
+            from discordHelper import model_completed_testing
+            testing_environment = {
+                "Model Name": file_name_model_1, "Filter First": filter_moves, "Opponent": file_name_model_2, "Filter Second": filter_moves, "File": recorded_game_results_file
+            }
+            model_completed_testing(testing_environment)
+        except ImportError:
+            pass

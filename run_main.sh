@@ -1,4 +1,4 @@
-TARGET=10000
+TARGET=1500
 
 while true; do
     # is 0 if file does not exist
