@@ -16,16 +16,16 @@ from protocolSettings import bot_room_name, ws_protocol, site_name, training, UR
 
 simplified = True
 training = False
-filter_moves = False
+filter_moves = True
 cards_changed_each_time = 0
 num_games = 100
 game_count = 0
 initial_game_number = 0
 num_times_a_timeout_occurred = 0
 max_timeouts = 20
-file_name_model = "trained_models/RevisedSimpleModel100.keras"
+file_name_model = "trained_models/EORTransformer2RoundOnly.keras"
 valid_deck_names = ["CatoChamp"]
-recorded_game_results_file = "game_results/results_simple_100_v_filter_expanded.txt"
+recorded_game_results_file = "game_results/EORTransformer2RoundHeavy_vs_random_pure.txt"
 if not os.path.exists("decks"):
     shutil.copytree("default_decks", "decks")
 if not os.path.exists("decks/CatoCore"):
@@ -108,9 +108,9 @@ if response.status_code == 200:
                             message = "CHAT_MESSAGE//reset-game"
                             message = '{"message": \"' + message + '\"}'
                             await websocket.send(message)
-                            game_count += 1
-                            print("games completed:", game_count)
                             if game_count < 1000 and moves_made > 10:
+                                game_count += 1
+                                print("games completed:", game_count)
                                 with open(recorded_game_results_file, "a") as f:
                                     f.write(deck_1 + ", " + deck_2 + ", " + game.winner + "\n")
                                     f.close()
@@ -191,3 +191,12 @@ if response.status_code == 200:
         model.save(file_name_model)
     end_time_all_games = datetime.datetime.now()
     print("Time taken to play all " + str(num_games - initial_game_number) + " games: ", end_time_all_games - start_time_all_games)
+    if num_games == game_count:
+        try:
+            from discordHelper import model_completed_testing
+            testing_environment = {
+                "Model Name": file_name_model, "Filter First": filter_moves, "Opponent": "Random Moves", "Filter Second": False, "File": recorded_game_results_file
+            }
+            model_completed_testing(testing_environment)
+        except ImportError:
+            pass
