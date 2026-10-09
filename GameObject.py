@@ -8,8 +8,8 @@ from elementValues import VALUE_CARDS, VALUE_RESOURCES, VALUE_UNITS_IN_PLAY, VAL
 
 class Game:
     def __init__(self, name_1, name_2, production=False):
-        self.player_one = Player(name_1, 1)
-        self.player_two = Player(name_2, 2)
+        self.player_one = Player(name_1, 1, production=production)
+        self.player_two = Player(name_2, 2, production=production)
         self.planets_in_play = ["Unknown" for _ in range(7)]
         self.round_number = 1
         self.initiative_holder = 1

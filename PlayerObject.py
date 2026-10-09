@@ -6,7 +6,7 @@ from conquestdb_data import planet_df
 
 
 class Player:
-    def __init__(self, player_name, number):
+    def __init__(self, player_name, number, production=False):
         self.name = player_name
         self.number = number
         self.headquarters = []
@@ -21,6 +21,7 @@ class Player:
         self.target_discard = -1
         self.warlord_is_bloodied = False
         self.previous_actions = []
+        self.production = production
 
     def search_hand_low_cost_command_unit(self):
         for i in range(len(self.hand)):
@@ -178,7 +179,7 @@ class Player:
         return self.resources
 
     def add_card_to_headquarters(self, card_name, ready=True, damage=0, faith=0, text="", target=False, attachments=None, hale=True):
-        card = CardObject.Card(card_name, ready, damage, faith, text, target, hale=hale)
+        card = CardObject.Card(card_name, ready, damage, faith, text, target, hale=hale, production=self.production)
         if not hale:
             self.warlord_is_bloodied = True
         if attachments is not None:
@@ -189,7 +190,7 @@ class Player:
                     attachment_ready = True
                 else:
                     attachment_ready = False
-                attachment_card = CardObject.Card(attachment_card_name, attachment_ready, 0, 0, "", False)
+                attachment_card = CardObject.Card(attachment_card_name, attachment_ready, 0, 0, "", False, production=self.production)
                 card.add_attachment(attachment_card)
         self.headquarters.append(card)
 
@@ -204,7 +205,7 @@ class Player:
         return None
 
     def add_card_to_planet(self, card_name, planet_pos, ready=True, damage=0, faith=0, text="", target=False, attachments=None, hale=True):
-        card = CardObject.Card(card_name, ready, damage, faith, text, target, hale=hale)
+        card = CardObject.Card(card_name, ready, damage, faith, text, target, hale=hale, production=self.production)
         if not hale:
             self.warlord_is_bloodied = True
         if attachments is not None:
@@ -215,12 +216,12 @@ class Player:
                     attachment_ready = True
                 else:
                     attachment_ready = False
-                attachment_card = CardObject.Card(attachment_card_name, attachment_ready, 0, 0, "", False)
+                attachment_card = CardObject.Card(attachment_card_name, attachment_ready, 0, 0, "", False, production=self.production)
                 card.add_attachment(attachment_card)
         self.cards_in_play[planet_pos].append(card)
 
     def add_card_to_hand(self, card_name):
-        card = CardObject.Card(card_name, True, 0, 0, "", False, True)
+        card = CardObject.Card(card_name, True, 0, 0, "", False, True, production=self.production)
         self.hand.append(card)
 
     def add_card_to_discard(self, card_name):

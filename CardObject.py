@@ -9,7 +9,12 @@ cards_df["cost"] = cards_df["cost"].astype(int)
 
 
 class Card:
-    def __init__(self, card_name, ready_state=True, damage=0, faith=0, text="", target=False, hale=True):
+    def __init__(self, card_name, ready_state=True, damage=0, faith=0, text="", target=False, hale=True, production=False):
+        if production:
+            card_name = card_name.replace(" apoka", "")
+            card_name = card_name.replace(" blackstone", "")
+            if card_name not in cards_df.index:
+                card_name = "Unknown"
         self.card_name = card_name
         self.ready = ready_state
         self.damage = damage
